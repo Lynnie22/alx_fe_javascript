@@ -1,5 +1,5 @@
 // Array of quote objects
-const quotes = [
+const quotes = JSON.parse(localStorage.getItem('quotes')) || [
     { text: "The best way to predict the future is to create it.", category: "Inspiration" },
     { text: "Do not wait to strike till the iron is hot; but make it hot by striking.", category: "Motivation" },
     { text: "Whether you think you can or think you can’t, you’re right.", category: "Belief" },
