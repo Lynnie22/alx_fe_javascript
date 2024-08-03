@@ -114,7 +114,7 @@ populateCategories();
 filterQuote();
 
 // Function to sync with the server
-async function syncWithServer() {
+async function fetchQuotesFromServer() {
   try {
     const response = await axios.get('https://jsonplaceholder.typicode.com/posts'); // Replace with your mock API
     const serverQuotes = response.data; // Adjust according to the API response structure
@@ -139,5 +139,5 @@ async function syncWithServer() {
 
 // Function to periodically sync with the server
 function startPeriodicSync(interval = 60000) { // Default interval: 60 seconds
-  setInterval(syncWithServer, interval);
+  setInterval(fetchQuotesFromServer, interval);
 }
