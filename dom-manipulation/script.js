@@ -112,3 +112,32 @@ const lastSelectedCategory = localStorage.getItem('lastSelectedCategory') || 'al
 document.getElementById('categoryFilter').value = lastSelectedCategory;
 populateCategories();
 filterQuote();
+
+// Function to sync with the server
+async function syncWithServer() {
+  try {
+    const response = await axios.get('https://jsonplaceholder.typicode.com/posts'); // Replace with your mock API
+    const serverQuotes = response.data; // Adjust according to the API response structure
+    // Assuming serverQuotes is an array of quotes
+
+    // Merge server quotes with local quotes
+    serverQuotes.forEach(serverQuote => {
+      if (!quotes.some(localQuote => localQuote.text === serverQuote.text)) {
+        quotes.push(serverQuote);
+      }
+    });
+
+    // Save updated quotes array to local storage
+    localStorage.setItem('quotes', JSON.stringify(quotes));
+    alert('Quotes synced with server successfully!');
+    populateCategories(); // Update categories in dropdown
+    filterQuote();
+  } catch (error) {
+    console.error('Error syncing with server:', error);
+  }
+}
+
+// Function to periodically sync with the server
+function startPeriodicSync(interval = 60000) { // Default interval: 60 seconds
+  setInterval(syncWithServer, interval);
+}
