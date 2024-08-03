@@ -113,7 +113,7 @@ document.getElementById('categoryFilter').value = lastSelectedCategory;
 populateCategories();
 filterQuote();
 
-// Function to sync with the server
+//Function to fetch quotes from the server
 async function fetchQuotesFromServer() {
   try {
     const response = await axios.get('https://jsonplaceholder.typicode.com/posts'); // Replace with your mock API
@@ -137,7 +137,22 @@ async function fetchQuotesFromServer() {
   }
 }
 
+// Function to post a new quote to the server
+async function postQuoteToServer(newQuote) {
+  try {
+    await axios.post('https://jsonplaceholder.typicode.com/posts', newQuote, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    alert('Quote posted to server successfully!');
+  } catch (error) {
+    console.error('Error posting quote to server:', error);
+  }
+}
+
 // Function to periodically sync with the server
-function startPeriodicSync(interval = 60000) { // Default interval: 60 seconds
+function syncQuotes(interval = 60000) { // Default interval: 60 seconds
   setInterval(fetchQuotesFromServer, interval);
 }
+
