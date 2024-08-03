@@ -152,3 +152,18 @@ let quotes = JSON.parse(localStorage.getItem('quotes')) || [
   // Initialize the app by creating the add quote form
   createAddQuoteForm();
   
+
+  function filterQuotes() {
+    const selectedCategory = document.getElementById('categoryFilter').value;
+    localStorage.setItem('lastSelectedCategory', selectedCategory);
+    showRandomQuote();
+  }
+  
+  function getFilteredQuotes() {
+    const selectedCategory = document.getElementById('categoryFilter').value;
+    if (selectedCategory === 'all') {
+      return quotes;
+    }
+    return quotes.filter(quote => quote.category === selectedCategory);
+  }
+  
