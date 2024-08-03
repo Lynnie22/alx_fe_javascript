@@ -84,37 +84,28 @@ let quotes = JSON.parse(localStorage.getItem('quotes')) || [
     }
   }
   
-  // Function to export quotes to a JSON file
-  function exportQuotes() {
+  function exportToJsonFile() {
     const dataStr = JSON.stringify(quotes, null, 2);
-    const blob = new Blob([dataStr], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'quotes.json';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(dataBlob);
+    const exportFileDefaultName = 'quotes.json';
+  
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = exportFileDefaultName;
+    link.click();
   }
   
-  // Function to import quotes from a JSON file
-  function importQuotes() {
-    const fileInput = document.getElementById('importQuotesFile');
-    const file = fileInput.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = function(event) {
-        const importedQuotes = JSON.parse(event.target.result);
-        quotes = quotes.concat(importedQuotes);
-        // Save updated quotes array to local storage
-        localStorage.setItem('quotes', JSON.stringify(quotes));
-        alert('Quotes imported successfully!');
-        showRandomQuote();
-      };
-      reader.readAsText(file);
-    } else {
-      alert('Please select a file to import.');
-    }
+  function importFromJsonFile(event) {
+    const fileReader = new FileReader();
+    fileReader.onload = function(event) {
+      const importedQuotes = JSON.parse(event.target.result);
+      quotes.push(...importedQuotes);
+      // Save updated quotes array to local storage
+      localStorage.setItem('quotes', JSON.stringify(quotes));
+      alert('Quotes imported successfully!');
+    };
+    fileReader.readAsText(event.target.files[0]);
   }
   
   // Event listener for the Show New Quote button
