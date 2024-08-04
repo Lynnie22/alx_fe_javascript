@@ -277,8 +277,6 @@
 // startPeriodicSync();
 
 
-
-
 let quotes = JSON.parse(localStorage.getItem('quotes')) || [
   { text: "The best way to predict the future is to create it.", category: "Inspiration" },
   { text: "Do not wait to strike till the iron is hot; but make it hot by striking.", category: "Motivation" },
@@ -399,15 +397,15 @@ async function fetchQuotesFromServer() {
     localStorage.setItem('quotes', JSON.stringify(quotes));
     
     if (conflicts) {
-      document.getElementById('notification').style.display = 'block';
-      setTimeout(() => document.getElementById('notification').style.display = 'none', 5000);
+      showNotification('Data conflict resolved. Server data took precedence.');
     } else {
-      alert('Quotes synced with server successfully!');
+      showNotification('Quotes synced with server successfully.');
     }
     populateCategories(); // Update categories in dropdown
     filterQuote();
   } catch (error) {
     console.error('Error syncing with server:', error);
+    showNotification('Error syncing with server.');
   }
 }
 
@@ -419,15 +417,26 @@ async function postQuoteToServer(newQuote) {
         'Content-Type': 'application/json'
       }
     });
-    alert('Quote posted to server successfully!');
+    showNotification('Quote posted to server successfully.');
   } catch (error) {
     console.error('Error posting quote to server:', error);
+    showNotification('Error posting quote to server.');
   }
 }
 
 // Function to periodically sync with the server
 function startPeriodicSync(interval = 60000) { // Default interval: 60 seconds
   setInterval(fetchQuotesFromServer, interval);
+}
+
+// Function to show notifications
+function showNotification(message) {
+  const notification = document.getElementById('notification');
+  notification.textContent = message;
+  notification.style.display = 'block';
+  setTimeout(() => {
+    notification.style.display = 'none';
+  }, 5000);
 }
 
 // Event listener for the Show New Quote button

@@ -4,6 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dynamic Quote Generator</title>
+  <style>
+    #notification {
+      display: none;
+      color: red;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 <body>
   <h1>Dynamic Quote Generator</h1>
@@ -18,12 +25,12 @@
   <button onclick="exportToJsonFile()">Export Quotes to JSON</button>
   <input type="file" id="importFile" accept=".json" onchange="importFromJsonFile(event)" />
 
-  <select id="categoryFilter" onchange="filterQuotes()">
+  <select id="categoryFilter" onchange="filterQuote()">
     <option value="all">All Categories</option>
     <!-- Dynamically populated categories -->
   </select>
 
-  <div id="notification" style="display:none; color: red;">Data conflict resolved. Server data took precedence.</div>
+  <div id="notification"></div>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="script.js"></script>
 </body>
